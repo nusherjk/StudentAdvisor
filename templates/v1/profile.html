@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>User Profile</title>
+    {% load static %}
+</head>
+<body>
+<a href="/gradecal/">grade calculator</a>
+<a href="/gradhist/"> Grade History</a>
+    <h1> Hello {{stinfo.fullname }} !</h1>
+    <h2> ID : {{stinfo.uni_id}}</h2>
+    <h2> Email : {{stinfo.email}}</h2>
+    <h2> CGPA : {{stinfo.cgpa}}</h2>
+    <h2> coreCGPA : {{stinfo.corecgpa}}</h2>
+    <h2> uniCGPA : {{stinfo.unicgpa}}</h2>
+    <h2> sepsCGPA : {{stinfo.sepscgpa}}</h2>
+    <a href="/logout"> Logout </a>
+
+
+</body>
+</html>

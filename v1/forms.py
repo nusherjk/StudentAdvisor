@@ -1,0 +1,49 @@
+from django import forms
+
+'''
+class RegisterForm(forms.Form):
+
+    first_name = forms.CharField(max_length=30, widget=forms.TextInput(attrs={'class':"form-control"}))
+    last_name= forms.CharField(max_length=30,widget=forms.TextInput(attrs={'class':"form-control"}))
+    email = forms.EmailField(max_length=50, widget=forms.TextInput(attrs={'class':"form-control"}))
+    password = forms.CharField(max_length=50,widget=forms.PasswordInput(attrs={'class':"form-control"}))
+    confirm_password = forms.CharField(max_length=50,widget=forms.PasswordInput(attrs={'class':"form-control"}))
+    address = forms.CharField(max_length=500, widget=forms.TextInput(attrs={'class':"form-control"}))
+
+class LoginForm(forms.Form):
+    email = forms.EmailField(max_length=50, widget=forms.TextInput(attrs={'class': "form-control"}))
+    password = forms.CharField(max_length=50, widget=forms.PasswordInput(attrs={'class': "form-control"}))
+
+
+class ComplaintForm(forms.Form):
+    fullname = forms.CharField(max_length=50, widget=forms.TextInput(attrs={'class':"form-control"}),label='Full Name')
+    email = forms.CharField(max_length=50, widget=forms.TextInput(attrs={'class':"form-control"}),label='Email Address')
+    comment = forms.CharField(max_length=1000, widget=forms.TextInput(attrs={'class':"form-control"}), label='Comment')
+'''
+class RegistrationForm(forms.Form):
+    user_id = forms.IntegerField()
+    fullname = forms.CharField(max_length=30)
+    email = forms.CharField(max_length=30)
+    password = forms.CharField(max_length=50)
+    confirm_password = forms.CharField(max_length=50)
+
+class LoginForm(forms.Form):
+    nsu_id = forms.IntegerField()
+    password = forms.CharField(max_length=50)
+
+class GradeForm(forms.Form):
+
+    c = [('1','A'),('2','A-'),('3','B+'),('4','B'),('5','B-'),('6','C+'),('7','C'),('8','C-'),('9','D') ]
+    coursename = forms.CharField(max_length=8)
+    coursegrade = forms.ChoiceField(choices=c,label='grades')
+    semester = forms.IntegerField()
+
+
+
+
+
+    '''first_name = models.CharField(max_length=30)
+    last_name = models.CharField(max_length=30)
+    email = models.EmailField(max_length=50)
+    password = models.CharField(max_length=90)
+    address = models.CharField(max_length=500)'''

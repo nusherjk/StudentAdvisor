@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>grade calculator</title>
+    {% load static %}
+</head>
+<body>
+<a href="/profile/">grade calculator</a>
+<a href="/gradhist/"> Grade History</a>
+    <h1> GRADE CALCULATOR</h1>
+    <form action="/gradecal2/" method="POST">
+        {% csrf_token %}
+        {{form.as_p}}
+        <button type="submit">Submit</button>
+    </form>
+
+</body>
+</html>
