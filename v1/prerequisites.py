@@ -63,14 +63,10 @@ class Prereq(KnowledgeEngine):
     @Rule(Fact('BIO103', grade=L('N')))
     def dobio(self):
         self.s.append('BIO103')
+        self.s.append('BIO103L')
         self.UNIcore.append('BIO103')
+        self.UNIcore.append('BIO103L')
 
-        @Rule(Fact('BIO103', grade=L('N')))
-        def dobio(self):
-            self.s.append('BIO103L')
-            self.UNIcore.append('BIO103L')
-        # UNIVERSITY CORE
-        # Social Sciences
 
     @Rule(Fact('ENV203', grade=L('N')))
     def doenv(self):
@@ -130,7 +126,9 @@ class Prereq(KnowledgeEngine):
     @Rule(Fact('CSE173', grade=~L('F') & ~L('N')), Fact('CSE215', grade=L('N')))
     def do215(self):
         self.s.append('CSE215')
+        self.s.append('CSE215L')
         self.CSEcore.append('CSE215')
+        self.CSEcore.append('CSE215L')
 
     @Rule(Fact('CSE215', grade=~L('F') & ~L('N')), Fact('CSE225', grade=L('N')))
     def do225(self):
@@ -229,27 +227,31 @@ class Prereq(KnowledgeEngine):
     @Rule(Fact('MAT120', grade=~L('F') & ~L('N')), Fact('PHY107', grade=L('N')))
     def do107(self):
         self.s.append('PHY107')
+        self.s.append('PHY107L')
         self.SEPScore.append("PHY107")
-
+        self.SEPScore.append("PHY107L")
+    '''
     @Rule(Fact('MAT120', grade=~L('F') & ~L('N')), Fact('PHY107L', grade=L('N')))
     def do107(self):
         self.s.append('PHY107L')
         self.SEPScore.append("PHY107L")
-
+    '''
     @Rule(Fact('MAT130', grade=~L('F') & ~L('N')),
           Fact('PHY107', grade=~L('F') & ~L('N')),
-          Fact('PHY107', grade=L('N')))
+          Fact('PHY108', grade=L('N')))
     def do108(self):
         self.s.append('PHY108')
+        self.s.append('PHY108L')
         self.SEPScore.append("PHY108")
-
+        self.SEPScore.append("PHY108L")
+    '''
     @Rule(Fact('MAT130', grade=~L('F') & ~L('N')),
           Fact('PHY107', grade=~L('F') & ~L('N')),
           Fact('PHY107', grade=L('N')))
     def do108(self):
         self.s.append('PHY108L')
         self.SEPScore.append("PHY108L")
-
+    '''
     # EEE Part
 
     @Rule(Fact('MAT120', grade=~L('F') & ~L('N')),
@@ -257,26 +259,46 @@ class Prereq(KnowledgeEngine):
           Fact('EEE141', grade=L('N')))
     def do141(self):
         self.s.append('EEE141')
+        self.s.append('EEE141L')
         self.CSEcore.append('EEE141')
+        self.CSEcore.append('EEE141L')
 
     @Rule(Fact('EEE141', grade=~L('F') & ~L('N')), Fact('EEE111', grade=L('N')))
     def doeee111(self):
         self.s.append('EEE111')
+        self.s.append('EEE111L')
         self.CSEcore.append('EEE111')
+        self.CSEcore.append('EEE111L')
 
     # others
     @Rule(Fact('MAT350', grade=~L('F') & ~L('N')), Fact('CHE101', grade=L('N')))
     def doche(self):
         self.s.append('CHE101')
+        self.s.append('CHE101L')
         self.SEPScore.append("CHE101")
-
-    @Rule(Fact('MAT350', grade=~L('F') & ~L('N')), Fact('CHE101', grade=L('N')))
+        self.SEPScore.append("CHE101L")
+    '''
+    @Rule(Fact('MAT350', grade=~L('F') & ~L('N')), Fact('CHE101L', grade=L('N')))
     def doche(self):
         self.s.append('CHE101L')
         self.SEPScore.append("CHE101L")
+    '''
+
+    @Rule(Fact('MAT361', grade=~L('F') & ~L('N')),
+          Fact('PHY108', grade=~L('F') & ~L('N')),
+          Fact('PHI104', grade=~L('F') & ~L('N')),
+          Fact('CSE299', grade= L('N')))
+    def do299(self):
+        self.s.append('CSE299')
+        self.CSEcore.append('CSE299')
+
+
+
 
     def listpass(self):
+        #print(self.s)
         return self.s
+
 
     def SEPScourses(self):
         return self.SEPScore
@@ -284,3 +306,8 @@ class Prereq(KnowledgeEngine):
         return self.UNIcore
     def corecourses(self):
         return self.CSEcore
+
+
+
+
+

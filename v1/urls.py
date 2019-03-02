@@ -30,5 +30,6 @@ urlpatterns = [
     path('gradecal2/', sa.gradecalaction, name='grade calcualtor action'),
     path('gradhist/',sa.gradehistory, name='Grade History'),
     path('cd/',sa.courseadvise, name='Course Advisor'),
+    path('cp/', sa.showgradpath, name= 'Course Path'),
     path('logout/', sa.logout, name = 'logout'),
 ]

@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Course Advisor</title>
+    <title>Coursepath</title>
     {% load static %}
 </head>
 <body>
@@ -11,10 +11,10 @@
 <a href="/gradhist/"> Grade History</a>
 <a href="/cd/"> Course Advisor</a>
 <a href="/cp/"> Full course path</a>
-    <h1> Course Advisor</h1>
-    <p>{{dat}}</p>
-    <p>{{csecore}}</p>
-    <p>{{sepscore}}</p>
-    <p>{{unicore}}</p>
+<h1>Course path</h1>
+{% for d in data %}
+<p>{{d}}</p>
+{% endfor %}
+
 </body>
 </html>

@@ -3,6 +3,7 @@ from .forms import *
 from .models import *
 from django.http import HttpResponse,HttpResponseRedirect
 from pyknow import *
+from .engine import *
 from django.contrib import sessions
 from .prerequisites import Prereq
 import math
@@ -194,11 +195,31 @@ class Studentasist:
             a3.clear()
             t.clear()
 
-            #for i in l:
-            #    crsobj = Courses.objects.get(coursename=i)
+            for i in l:
+                crsobj = Courses.objects.get(coursename=i)
 
 
-            return render(request, "courseadvisor.html", {'dat': sorted(l), 'csecore': sorted(cse), 'sepscore': sorted(seps), 'unicore': sorted(uni)})
+
+        return render(request, "courseadvisor.html", {'dat': sorted(l), 'csecore': sorted(cse), 'sepscore': sorted(seps), 'unicore': sorted(uni)})
+
+
+    def showgradpath(request):
+        if request.session.has_key("uni_id"):
+            lst = []
+            i=1
+            stdid = request.session['uni_id']
+            grdobj = Grades.objects.filter(Student_id=stdid)
+            for grd in grdobj:
+                lst.append([i,grd.Course_name,grd.grade])
+                i=i+1
+            obj = Gradepath(lst)
+            d = obj.returncoursepath()
+            print(d)
+
+            return render(request,'coursepath.html',{'data':d})
+
+
+
 
 
 
