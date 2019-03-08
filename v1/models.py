@@ -31,8 +31,10 @@ class Student(models.Model):
                 cr = Courses.objects.get(coursename=g.Course_name)
                 total_credit = total_credit + cr.credits
                 m = m + g.grdpa * cr.credits
-
-        self.cgpa = m / total_credit
+        if total_credit!=0:
+            self.cgpa = m / total_credit
+        else:
+            self.cgpa = 0
         self.total_credits= total_credit
         self.save()
 
@@ -49,11 +51,22 @@ class Student(models.Model):
                     cred = cred + cr.credits
                     m = m + g.grdpa * cr.credits
         if set == 'SEPS':
-            self.sepscgpa = m/cred
+            if cred != 0:
+                self.sepscgpa = m / cred
+            else:
+                self.sepscgpa = 0
         elif set == 'UNI':
-            self.unicgpa = m/cred
+            if cred != 0:
+                self.unicgpa = m / cred
+            else:
+                self.unicgpa = 0
+
         elif set == 'CORE':
-            self.corecgpa = m/cred
+            if cred != 0:
+                self.corecgpa = m / cred
+            else:
+                self.corecgpa = 0
+
         else:
             print('Something went Wrong')
 

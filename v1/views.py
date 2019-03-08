@@ -1,3 +1,18 @@
+
+'''
+TODO's:
+Needs to match confirm password and password values before registering
+Needs to create Course Advisor Object Oriented
+Needs an Expert System for Students to determine how much courses they should take
+Needs to have an Expert System for Determining which courses should be retaken
+Probation checker
+Adding elective and capstone courses in database
+adding them into prereq Knowledge Base
+Add a friggin Front end for this project
+the AI needs more classifiers
+
+'''
+
 from django.shortcuts import render
 from .forms import *
 from .models import *
@@ -10,6 +25,7 @@ import math
 # Create your views here.
 #updates needed in line numbers
 #42
+
 
 
 
@@ -144,10 +160,14 @@ class Studentasist:
     def courseadvise(request):
 
         if request.session.has_key('uni_id'):
-            l=[]
+            l=[]  #list of courses he can take
+            l.clear()
             seps = []
+            seps.clear()
             cse = []
+            cse.clear()
             uni = []
+            uni.clear()
             uid = request.session['uni_id']
             grdobj = Grades.objects.filter(Student_id= uid)
             engine = Prereq()
@@ -158,11 +178,14 @@ class Studentasist:
             engine.run()
 
             #complicated sector
+            maxcrd= 12 #max credit a student can take
+            cfts = 0 # total credit he should be taking
+            n = [] # list of courses he should be taking
             t = engine.listpass()
             a1 = engine.unicourses()
             a2 = engine.SEPScourses()
             a3 = engine.corecourses()
-            p = 11
+            p = 13
             for j1 in a1:
                 unicrc = Courses.objects.get(coursename=j1)
                 prio1 = unicrc.priority
@@ -186,21 +209,29 @@ class Studentasist:
             for m1 in t:
                 crss = Courses.objects.get(coursename=m1)
                 m2 = catprio[crss.category]
+                ch = crss.credits
                 print(crss.category)
-                l.append((crss.priority, m2 , m1))
+                l.append((crss.priority, m2 ,ch, m1))
                 #if p == crss.priority:
                 #   l.append((crss.priority,m1))
             a1.clear()
             a2.clear()
             a3.clear()
             t.clear()
-
+            l= sorted(l)
+            '''Not perfectly Working '''
             for i in l:
-                crsobj = Courses.objects.get(coursename=i)
+                if cfts <= maxcrd:
+                    n.append(i[3])
+                    cfts = cfts + i[2]
+                else:
+                    break
 
 
 
-        return render(request, "courseadvisor.html", {'dat': sorted(l), 'csecore': sorted(cse), 'sepscore': sorted(seps), 'unicore': sorted(uni)})
+
+
+        return render(request, "courseadvisor.html", {'suggested': n,'dat': l, 'csecore': sorted(cse), 'sepscore': sorted(seps), 'unicore': sorted(uni)})
 
 
     def showgradpath(request):
@@ -210,7 +241,8 @@ class Studentasist:
             stdid = request.session['uni_id']
             grdobj = Grades.objects.filter(Student_id=stdid)
             for grd in grdobj:
-                lst.append([i,grd.Course_name,grd.grade])
+                c = Courses.objects.get(coursename= grd.Course_name)
+                lst.append([c.credits,grd.Course_name,grd.grade])
                 i=i+1
             obj = Gradepath(lst)
             d = obj.returncoursepath()

@@ -1,6 +1,6 @@
 from .prerequisites import *
 from pyknow import *
-from .models import Grades
+from .models import Courses
 
 
 class Engine():
@@ -50,11 +50,36 @@ class Engine():
 
     def getrunning(self):
         n =[]
-        #m =self.engine.facts
-        #print(m)
+        srt=[]
+        mvp = []
+        credit_limit =13 # A knowledge engine for students how much credits should they take on this semester
+        this_session_credit =0
+
         self.engine.run()
         t = self.engine.listpass()
+        '''search the courses and sort them by the priority -> credits '''
+        print('is it working?')
+        for f in t:
+            crs = Courses.objects.get(coursename= f)
+            mvp.append([crs.priority,crs.credits,crs.coursename])
+        t.clear()
+        mvp = sorted(mvp)
+        for m in mvp:
+            if this_session_credit< credit_limit:
+                srt.append(m)
+                this_session_credit= this_session_credit + crs.credits
+
+        #srt = sorted(srt)
+        #print(srt)
+        courselist =[]
+        for s in srt:
+            courselist.append(s[2])
+        #p1,p2, courselist = zip(*srt)
+        print(courselist)
+        return courselist
+        #return sorted(srt)
         #print(t)
+        '''
         for to in t:
             n.append(to)
         t.clear()
@@ -62,7 +87,7 @@ class Engine():
             return n[-4:]
         else:
             return n
-
+        '''
 
 
     def simulation(self):
@@ -126,6 +151,8 @@ class Gradepath():
         print(p)
         return p
     def changinglist(self,prevcrs,list):
+        print("in changing list")
+        print(prevcrs)
         for p1 in prevcrs:
             for w1 in list:
                 if w1[1] == p1:
