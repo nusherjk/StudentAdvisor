@@ -1,6 +1,6 @@
 from .prerequisites import *
 from pyknow import *
-from .models import Courses
+from .models import Courses, Student
 
 
 class Engine():
@@ -28,10 +28,11 @@ class Engine():
     def getfactnumber(self):
         return self.head
 
-    def definefacts(self):
+    def definefacts(self, numofcrdts):
         for f in self.facts:
             #print(f[0],f[1],f[2])
             self.engine.declare(Fact(f[1], grade=f[2]))
+        self.engine.declare(Fact(credit= numofcrdts))
 
 
 
@@ -58,7 +59,7 @@ class Engine():
         self.engine.run()
         t = self.engine.listpass()
         '''search the courses and sort them by the priority -> credits '''
-        print('is it working?')
+        #print('is it working?')
         for f in t:
             crs = Courses.objects.get(coursename= f)
             mvp.append([crs.priority,crs.credits,crs.coursename])
@@ -75,7 +76,7 @@ class Engine():
         for s in srt:
             courselist.append(s[2])
         #p1,p2, courselist = zip(*srt)
-        print(courselist)
+        #print(courselist)
         return courselist
         #return sorted(srt)
         #print(t)
@@ -105,8 +106,9 @@ class Engine():
 
 
 class Gradepath():
-    def __init__(self, f1):
+    def __init__(self, f1, credit):
         self.pathlist = []
+        self.credit = credit
         i=0
         while (self.checker(f1) == True):
             # print(f1)
@@ -143,7 +145,7 @@ class Gradepath():
         e.resetengine()
         for f2 in fprog:
             e.setfactdatalist(f2)
-        e.definefacts()
+        e.definefacts(self.credit)
         # print(e.getfactnumber())
         # e.simulation()
         p = e.getrunning()
@@ -154,6 +156,8 @@ class Gradepath():
         print("in changing list")
         print(prevcrs)
         for p1 in prevcrs:
+            crdt = Courses.objects.get(coursename= p1)
+            self.credit = self.credit + crdt.credits
             for w1 in list:
                 if w1[1] == p1:
                     w1[2] = 'S'

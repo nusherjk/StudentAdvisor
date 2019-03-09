@@ -169,12 +169,14 @@ class Studentasist:
             uni = []
             uni.clear()
             uid = request.session['uni_id']
+            std = Student.objects.get(uni_id=uid)
             grdobj = Grades.objects.filter(Student_id= uid)
             engine = Prereq()
             engine.reset()
             for g in grdobj:
 
                 engine.declare(Fact(g.Course_name,grade=g.grade))
+            engine.declare(Fact(credit=std.total_credits))
             engine.run()
 
             #complicated sector
@@ -239,12 +241,13 @@ class Studentasist:
             lst = []
             i=1
             stdid = request.session['uni_id']
+            std = Student.objects.get(uni_id= stdid )
             grdobj = Grades.objects.filter(Student_id=stdid)
             for grd in grdobj:
                 c = Courses.objects.get(coursename= grd.Course_name)
                 lst.append([c.credits,grd.Course_name,grd.grade])
                 i=i+1
-            obj = Gradepath(lst)
+            obj = Gradepath(lst,std.total_credits)
             d = obj.returncoursepath()
             print(d)
 

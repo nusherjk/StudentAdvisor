@@ -314,6 +314,18 @@ class Prereq(KnowledgeEngine):
         self.s.append('CSE299')
         self.CSEcore.append('CSE299')
 
+    ''' NEXT LEVEL SHIT NOW!!!'''
+    @Rule(Fact(credit = P(lambda x: x>100)), Fact('CSE499A', grade='N'))
+    def do499a(self):
+        self.s.append("CSE499A")
+
+    @Rule(AND(Fact('CSE499A', grade=~L('F') & ~L('N')),
+          Fact('CSE499B', grade='N')))
+    def do499b(self):
+        self.s.append("CSE499B")
+
+    #@Rule(Fact('TRAIL1', grade=~L('F')&~L('N')))
+
 
 
 
