@@ -20,16 +20,21 @@ class ComplaintForm(forms.Form):
     email = forms.CharField(max_length=50, widget=forms.TextInput(attrs={'class':"form-control"}),label='Email Address')
     comment = forms.CharField(max_length=1000, widget=forms.TextInput(attrs={'class':"form-control"}), label='Comment')
 '''
+
+
 class RegistrationForm(forms.Form):
-    user_id = forms.IntegerField()
-    fullname = forms.CharField(max_length=30)
-    email = forms.CharField(max_length=30)
-    password = forms.CharField(max_length=50)
-    confirm_password = forms.CharField(max_length=50)
+    user_id = forms.IntegerField(widget=forms.TextInput(attrs={'class':"form-control",'placeholder':'University ID'}), label="University ID")
+    fullname = forms.CharField(max_length=30,widget=forms.TextInput(attrs={'type':'text','class':"form-control",'placeholder':'Fullname'}), label="Fullname")
+    email = forms.CharField(max_length=30, widget=forms.TextInput(attrs={'type':'text','class':"form-control",'placeholder':'Email ID'}), label="Email Address")
+    password = forms.CharField(max_length=50, widget=forms.TextInput(attrs={'type':'password','class':"form-control",'placeholder':'password'}))
+    confirm_password = forms.CharField(max_length=50, widget=forms.TextInput(attrs={'type':'password','class':"form-control",'placeholder':'password'}))
 
 class LoginForm(forms.Form):
-    nsu_id = forms.IntegerField()
-    password = forms.CharField(max_length=50)
+    user_id = forms.IntegerField(
+        widget=forms.TextInput(attrs={'type':'int', 'class': "form-control", 'placeholder': 'University ID'}),
+        label="University ID")
+    password = forms.CharField(max_length=50, widget=forms.TextInput(
+        attrs={'type': 'password', 'class': "form-control", 'placeholder': 'password'}))
 
 class GradeForm(forms.Form):
 

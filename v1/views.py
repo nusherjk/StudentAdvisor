@@ -32,17 +32,17 @@ import math
 class Studentasist:
 
     def index(request):
-        return render(request, 'home.html')
+        return render(request, 'welcome.html')
         #return render(request, "login/login.html")
 
     def login(request):
         form = LoginForm()
-        return render(request, "login.html", {"form": form})
+        return render(request, "login2.html", {"form": form})
 
     def loginaction(request):
         form = LoginForm(request.POST)
         if form.is_valid():
-            uid = form.cleaned_data["nsu_id"]
+            uid = form.cleaned_data["user_id"]
             password = form.cleaned_data['password']
             u = Student.objects.get(uni_id = uid)
             if u.password == password:
@@ -54,7 +54,7 @@ class Studentasist:
 #registers users
     def register(request):
         form = RegistrationForm()
-        return render(request, "register.html", {"form":form})
+        return render(request, "signup.html", {"form":form})
 
 #gets the post data and creates a 46 grades data for each students
     def registeraction(request):
