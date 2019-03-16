@@ -20,23 +20,28 @@ class ComplaintForm(forms.Form):
     email = forms.CharField(max_length=50, widget=forms.TextInput(attrs={'class':"form-control"}),label='Email Address')
     comment = forms.CharField(max_length=1000, widget=forms.TextInput(attrs={'class':"form-control"}), label='Comment')
 '''
+
+
 class RegistrationForm(forms.Form):
-    user_id = forms.IntegerField()
-    fullname = forms.CharField(max_length=30)
-    email = forms.CharField(max_length=30)
-    password = forms.CharField(max_length=50)
-    confirm_password = forms.CharField(max_length=50)
+    user_id = forms.IntegerField(widget=forms.TextInput(attrs={'class':"form-control",'placeholder':'University ID'}), label="University ID")
+    fullname = forms.CharField(max_length=30,widget=forms.TextInput(attrs={'type':'text','class':"form-control",'placeholder':'Fullname'}), label="Fullname")
+    email = forms.CharField(max_length=30, widget=forms.TextInput(attrs={'type':'text','class':"form-control",'placeholder':'Email ID'}), label="Email Address")
+    password = forms.CharField(max_length=50, widget=forms.TextInput(attrs={'type':'password','class':"form-control",'placeholder':'password'}))
+    confirm_password = forms.CharField(max_length=50, widget=forms.TextInput(attrs={'type':'password','class':"form-control",'placeholder':'password'}))
 
 class LoginForm(forms.Form):
-    nsu_id = forms.IntegerField()
-    password = forms.CharField(max_length=50)
+    user_id = forms.IntegerField(
+        widget=forms.TextInput(attrs={'type':'int', 'class': "form-control", 'placeholder': 'University ID'}),
+        label="University ID")
+    password = forms.CharField(max_length=50, widget=forms.TextInput(
+        attrs={'type': 'password', 'class': "form-control", 'placeholder': 'password'}))
 
 class GradeForm(forms.Form):
 
     c = [('1','A'),('2','A-'),('3','B+'),('4','B'),('5','B-'),('6','C+'),('7','C'),('8','C-'),('9','D') ]
-    coursename = forms.CharField(max_length=8)
-    coursegrade = forms.ChoiceField(choices=c,label='grades')
-    semester = forms.IntegerField()
+    coursename = forms.CharField(max_length=8, widget=forms.TextInput(attrs={'type':'text','class':"form-control",'placeholder':'Course Name'}), label='Course')
+    coursegrade = forms.ChoiceField(choices=c,label='Grades',widget=forms.Select(attrs={'class':"form-control",'placeholder':'Course Grade'}))
+    semester = forms.IntegerField(widget=forms.TextInput(attrs={'class':"form-control",'placeholder':'Semester number'}), label='Semester')
 
 
 

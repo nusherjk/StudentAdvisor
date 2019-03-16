@@ -1,15 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>GradeHistory</title>
-</head>
-<body>
-<a href="/profile/"> User Profile </a>
-<a href="/gradecal/">grade calculator</a>
-<a href="/gradhist/"> Grade History</a>
-<a href="/cd/"> Course Advisor</a>
-<a href="/cp/"> Full course path</a>
+{% extends "./includes/header2.html" %}
+{% block content %}
+
     <h1>Grade history</h1>
     <table class="table">
                 <thead>
@@ -34,7 +25,4 @@
 
                 </tbody>
               </table>
-
-
-</body>
-</html>
+{% endblock %}

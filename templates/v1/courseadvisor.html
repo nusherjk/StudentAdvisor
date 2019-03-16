@@ -1,16 +1,6 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Course Advisor</title>
-    {% load static %}
-</head>
-<body>
-<a href="/profile/"> User Profile </a>
-<a href="/gradecal/">grade calculator</a>
-<a href="/gradhist/"> Grade History</a>
-<a href="/cd/"> Course Advisor</a>
-<a href="/cp/"> Full course path</a>
+{% extends "./includes/header2.html" %}
+{% block content %}
+
     <h1> Course Advisor</h1>
     <h2>Suggested courses for this semester</h2>
     <p>{{suggested}}</p>
@@ -19,5 +9,4 @@
     <p>{{csecore}}</p>
     <p>{{sepscore}}</p>
     <p>{{unicore}}</p>
-</body>
-</html>
+{% endblock %}

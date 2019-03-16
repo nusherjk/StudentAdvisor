@@ -1,20 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Coursepath</title>
-    {% load static %}
-</head>
-<body>
-<a href="/profile/"> User Profile </a>
-<a href="/gradecal/">grade calculator</a>
-<a href="/gradhist/"> Grade History</a>
-<a href="/cd/"> Course Advisor</a>
-<a href="/cp/"> Full course path</a>
-<h1>Course path</h1>
+{% extends "./includes/header2.html" %}
+{% block content %}
+
 {% for d in data %}
 <p>{{d}}</p>
 {% endfor %}
-
-</body>
-</html>
+{% endblock %}
