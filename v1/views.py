@@ -2,15 +2,17 @@
 '''
 TODO's:
 Needs to match confirm password and password values before registering
-Needs to create Course Advisor Object Oriented
-Needs an Expert System for Students to determine how much courses they should take
-Needs to have an Expert System for Determining which courses should be retaken
+Needs to create Course Advisor Object Oriented (Done)
+Needs an Expert System for Students to determine how much courses they should take(Done)
+Needs to have an Expert System for Determining which courses should be retaken(Done)
 Probation checker
-Adding elective and capstone courses in database
-adding them into prereq Knowledge Base
-Add a friggin Front end for this project
-the AI needs more classifiers
-
+Adding elective and capstone courses in database 
+adding them into prereq Knowledge Base (Done)
+Add a friggin Front end for this project (ALmost Done)
+the AI needs more classifiers (working on it..)
+ADD retakes/ in navbar
+ADD newnav in other pages
+Update 
 '''
 
 from django.shortcuts import render
@@ -21,6 +23,7 @@ from pyknow import *
 from .engine import *
 from django.contrib import sessions
 from .prerequisites import Prereq
+from .numofcourses import Numofcrs
 import math
 # Create your views here.
 #updates needed in line numbers
@@ -64,6 +67,7 @@ class Studentasist:
             fullname = form.cleaned_data["fullname"]
             email = form.cleaned_data["email"]
             password = form.cleaned_data["password"]
+
             #check confirm password is similer or not
             stobj = Student(uni_id=uid,fullname=fullname,email=email,password=password)
             s = Courses.objects.all()
@@ -153,6 +157,7 @@ class Studentasist:
             stddata.updatecatcgpa('SEPS')
             stddata.updatecatcgpa('UNI')
             stddata.updatecatcgpa('CORE')
+            stddata.getsemnumber()
             context = {"stinfo": stddata}
             return render(request, 'profile.html', context)
 
@@ -170,6 +175,7 @@ class Studentasist:
             uni.clear()
             uid = request.session['uni_id']
             std = Student.objects.get(uni_id=uid)
+            std.getsemnumber()
             grdobj = Grades.objects.filter(Student_id= uid)
             engine = Prereq()
             engine.reset()
@@ -180,7 +186,23 @@ class Studentasist:
             engine.run()
 
             #complicated sector
-            maxcrd= 12 #max credit a student can take
+            crdengine = Numofcrs()
+            crdengine.reset()
+            crdengine.declare(Fact(cgpa=std.cgpa))
+            crdengine.declare(Fact(semnum= std.semunmber))
+            crdengine.declare(Fact(credits= std.total_credits))
+            crdengine.run()
+            dat = crdengine.numbcrs() 
+            semcr = {1:11, 2: 12, 3: 14, 4:13, 5:13, 6:7, 7:14, 8:12, 9:13, 10:9, 11:7.5, 12: 7.5 }
+            expectations = {1:0, 2:11, 3:23, 4:37, 5:50, 6:63, 7:70, 8:84, 9:96, 10:109, 11:118, 12:125.5}
+            smst = (std.semunmber)
+            
+            if std.total_credits >= expectations[smst]:
+                maxcrd= semcr[std.semunmber]
+            else:
+                maxcrd= dat
+
+            #maxcrd= #max credit a student can take
             cfts = 0 # total credit he should be taking
             n = [] # list of courses he should be taking
             t = engine.listpass()
@@ -191,16 +213,16 @@ class Studentasist:
             for j1 in a1:
                 unicrc = Courses.objects.get(coursename=j1)
                 prio1 = unicrc.priority
-                uni.append((prio1,j1))
+                uni.append((prio1,unicrc.coursetitle))
             for j2 in a2:
                 sepscrc = Courses.objects.get(coursename=j2)
                 prio2 = sepscrc.priority
-                seps.append((prio2, j2))
+                seps.append((prio2, sepscrc.coursetitle))
 
             for j3 in a3:
                 csecrc = Courses.objects.get(coursename=j3)
                 prio3 = csecrc.priority
-                cse.append((prio3, j3))
+                cse.append((prio3, csecrc.coursetitle))
 
 
             for m in t:
@@ -213,7 +235,7 @@ class Studentasist:
                 m2 = catprio[crss.category]
                 ch = crss.credits
                 print(crss.category)
-                l.append((crss.priority, m2 ,ch, m1))
+                l.append((crss.priority, m2 ,ch, crss.coursetitle))
                 #if p == crss.priority:
                 #   l.append((crss.priority,m1))
             a1.clear()
@@ -227,13 +249,16 @@ class Studentasist:
                     n.append(i[3])
                     cfts = cfts + i[2]
                 else:
+                    n1 = n.pop()
+
+                    cfts -=i[2]
                     break
 
 
 
 
 
-        return render(request, "courseadvisor.html", {'suggested': n,'dat': l, 'csecore': sorted(cse), 'sepscore': sorted(seps), 'unicore': sorted(uni)})
+        return render(request, "courseadvisor.html", {'suggested': n,'totcred':cfts,'dat': l, 'csecore': sorted(cse), 'sepscore': sorted(seps), 'unicore': sorted(uni)})
 
 
     def showgradpath(request):
@@ -265,6 +290,22 @@ class Studentasist:
             return HttpResponse("<h1> Could not logout for some reason</h1>")
         return HttpResponseRedirect('/login')
 
+
+
+    def retakelist(request):
+        if request.session.has_key("uni_id"):
+            stdid = request.session['uni_id']
+            rtk = Retakecrs()
+            rtk.resetengine()
+            grd = Grades.objects.filter(Student_id = stdid)
+            for g in grd:
+                cr = Courses.objects.get(coursename=g.Course_name)
+                rtk.setfactdatalist([g.Course_name,g.grade,cr.category])
+            rtk.definefacts()
+            l = []
+            l = rtk.runes()
+            # needs to do grade analyse here and checking current situations
+            return render(request,'retakes.html' ,{'retakables':l})
 
 
 

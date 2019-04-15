@@ -1,4 +1,5 @@
 from .prerequisites import *
+from .retakes import *
 from pyknow import *
 from .models import Courses, Student
 
@@ -162,6 +163,34 @@ class Gradepath():
                 if w1[1] == p1:
                     w1[2] = 'S'
         return list
+
+
+class Retakecrs:
+    def __init__(self):
+        self.engine = Retakes()
+        self.facts = []
+
+    def resetengine(self):
+        self.engine.reset()
+
+    def setfactdatalist(self, list):
+        self.facts.append(list)
+
+    def getfactdatalist(self):
+        return self.facts
+
+    def definefacts(self):
+        for f in self.facts:
+            #print(f[0],f[1],f[2])
+            self.engine.declare(Fact(name=f[0], grade=f[1], category=f[2]))
+
+    def runes(self):
+        self.engine.run()
+        return self.engine.listpass()
+
+
+
+
 '''
 if __name__ == '__main__':
     lst=[]

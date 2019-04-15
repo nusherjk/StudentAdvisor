@@ -1,4 +1,5 @@
 from django.db import models
+from django.db.models import Max
 '''
 Each Courses are either from SEPS or University General Education or from CSE core courses 
 and a student must have to maintain a specific CGPA in these category in the end of the degree
@@ -14,11 +15,12 @@ class Student(models.Model):
     sepscgpa = models.FloatField(default=0.0)
     corecgpa = models.FloatField(default=0.0)
     unicgpa = models.FloatField(default=0.0)
+    semunmber = models.IntegerField(default=0)
     '''credits = models.IntegerField(default=0)
-    cat1ptr = models.IntegerField(default=0)
-    cat2ptr = models.IntegerField(default=0)
-    cat3ptr = models.IntegerField(default=0)
-    cat4ptr = models.IntegerField(default=0)'''
+    software = models.IntegerField(default=0)
+    hardware = models.IntegerField(default=0)
+    math = models.IntegerField(default=0)
+    literature = models.IntegerField(default=0)'''
 
     def updatecgpa(self):
         total_credit = 0
@@ -70,6 +72,19 @@ class Student(models.Model):
         else:
             print('Something went Wrong')
 
+        self.save()
+
+    def getsemnumber(self):
+        try:
+            grd = Grades.objects.filter(Student_id=self.uni_id).aggregate(Max('semnum'))
+            self.semunmber = grd["semnum__max"] + 1
+        except e:
+            self.semunmber = 0 + 1    
+        print(self.semunmber)
+        self.save()
+        
+
+
     def __str__(self):
         return self.fullname
 
@@ -97,15 +112,16 @@ class Grades(models.Model):
 class Courses(models.Model):
     courseid = models.AutoField(unique=True, primary_key=True)
     coursename = models.CharField(max_length=5)
+    coursetitle = models.CharField(max_length= 100)
     credits = models.FloatField()
     priority = models.IntegerField()
     category = models.CharField(max_length=6)
-
+    software = models.IntegerField(default=0, null=False)
+    hardware = models.IntegerField(default=0, null=False)
+    math = models.IntegerField(default=0, null=False)
+    literature = models.IntegerField(default=0, null=False)
 
     def __str__(self):
         return self.coursename
-    '''cat1ptr = models.IntegerField(default=0)
-    cat2ptr = models.IntegerField(default=0)
-    cat3ptr = models.IntegerField(default=0)
-    cat4ptr = models.IntegerField(default=0)'''
+    
 
