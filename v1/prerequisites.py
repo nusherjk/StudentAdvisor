@@ -324,9 +324,21 @@ class Prereq(KnowledgeEngine):
     def do499b(self):
         self.s.append("CSE499B")
 
-    #@Rule(Fact('TRAIL1', grade=~L('F')&~L('N')))
+    @Rule(Fact('TRAIL-1', grade='N'))
+    def dotrail1(self):
+        self.s.append('TRAIL-1')
 
+    @Rule(Fact('TRAIL-2', grade='N'))
+    def dotrail2(self):
+        self.s.append('TRAIL-2')
+    @Rule(Fact('TRAIL-3', grade='N'))
+    def dotrail3(self):
+        self.s.append('TRAIL-3')
 
+    
+    @Rule(Fact('OPEN ELECTIVE', grade='N'))
+    def dotrail4(self):
+        self.s.append('OPEN ELECTIVE')    
 
 
     def listpass(self):

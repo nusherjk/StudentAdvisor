@@ -196,11 +196,13 @@ class Studentasist:
             semcr = {1:11, 2: 12, 3: 14, 4:13, 5:13, 6:7, 7:14, 8:12, 9:13, 10:9, 11:7.5, 12: 7.5 }
             expectations = {1:0, 2:11, 3:23, 4:37, 5:50, 6:63, 7:70, 8:84, 9:96, 10:109, 11:118, 12:125.5}
             smst = (std.semunmber)
-            
-            if std.total_credits >= expectations[smst]:
-                maxcrd= semcr[std.semunmber]
+            if smst>12:
+                maxcrd = dat
             else:
-                maxcrd= dat
+                if std.total_credits >= expectations[smst]:
+                    maxcrd= semcr[std.semunmber]
+                else:
+                    maxcrd= dat
 
             #maxcrd= #max credit a student can take
             cfts = 0 # total credit he should be taking
@@ -289,6 +291,8 @@ class Studentasist:
         except:
             return HttpResponse("<h1> Could not logout for some reason</h1>")
         return HttpResponseRedirect('/login')
+
+
 
 
 
