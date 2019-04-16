@@ -34,12 +34,7 @@ class Analyse:
     	if self.student.corecgpa < 2.5:
     		pass
     
-    def coursenum(self):
-    	engine = Numofcrs()
-    	engine.reset()
-    	engine.declare(Fact(cgpa=self.student.cgpa))
-    	engine.declare(Fact(credits=self.student.total_credits))
-    	engine.run()
+    
     	
 
     	#SEPS requires 2.5

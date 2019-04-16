@@ -33,4 +33,5 @@ urlpatterns = [
     path('cp/', sa.showgradpath, name= 'Course Path'),
     path('logout/', sa.logout, name = 'logout'),
     path('retakes/', sa.retakelist, name= 'retake list'),
+    path('about/', sa.con, name='about'),
 ]

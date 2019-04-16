@@ -42,6 +42,9 @@ class Studentasist:
         form = LoginForm()
         return render(request, "login2.html", {"form": form})
 
+    def con(request):
+        return renedr(request, 'about.html')
+
     def loginaction(request):
         form = LoginForm(request.POST)
         if form.is_valid():
@@ -231,7 +234,7 @@ class Studentasist:
                 crs = Courses.objects.get(coursename=m)
                 if p >= crs.priority:
                     p = crs.priority
-            catprio = {'CORE':1,'SEPS':2,'UNI':3}
+            catprio = {'CORE':1,'SEPS':2,'UNI':3, 'CAPS':4, 'TRAIL':5, 'OPEN':6}
             for m1 in t:
                 crss = Courses.objects.get(coursename=m1)
                 m2 = catprio[crss.category]
@@ -307,9 +310,16 @@ class Studentasist:
                 rtk.setfactdatalist([g.Course_name,g.grade,cr.category])
             rtk.definefacts()
             l = []
+            s = []
+            s.clear()
+
             l = rtk.runes()
+            for d in l:
+                s.append(d)
+            l.clear()
+
             # needs to do grade analyse here and checking current situations
-            return render(request,'retakes.html' ,{'retakables':l})
+            return render(request,'retakes.html' ,{'retakables':s})
 
 
 

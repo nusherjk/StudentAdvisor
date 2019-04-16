@@ -1,13 +1,26 @@
-{% extends "./includes/header2.html" %}
+{% extends "./includes/newnav.html" %}
 {% block content %}
 
     <h1> Course Advisor</h1>
     <h2>Suggested courses for this semester</h2>
-    <p>{{suggested}}</p>
+    {% for s in suggested %}
+    <p> {{s}} </p>
+    {% endfor %}
+    
     <p>credits : {{totcred}}</p>
-    <h2> courses that can be taken this semseter</h2>
-    <p>{{dat}}</p>
-    <p>{{csecore}}</p>
-    <p>{{sepscore}}</p>
-    <p>{{unicore}}</p>
+    <h2>CSE core courses available to take</h2>
+    {% for u in csecore %}
+    <p> {{u}}</p>
+    {% endfor %}
+
+    <h2>SEPS core courses available to take</h2>
+    {% for u in sepscore %}
+    <p> {{u}}</p>
+    {% endfor %}
+
+    <h2>University core courses available to take</h2>
+    {% for u in unicore %}
+    <p> {{u}}</p>
+    {% endfor %}
+
 {% endblock %}
