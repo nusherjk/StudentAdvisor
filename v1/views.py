@@ -43,7 +43,7 @@ class Studentasist:
         return render(request, "login2.html", {"form": form})
 
     def con(request):
-        return renedr(request, 'about.html')
+        return render(request, 'about.html')
 
     def loginaction(request):
         form = LoginForm(request.POST)

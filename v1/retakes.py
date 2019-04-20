@@ -2,7 +2,7 @@ from pyknow import *
 
 class Retakes(KnowledgeEngine):
     gradeparam = {'D':1, 'D+':2, 'C-': 3,'C':4, 'C+':5, 'B-':6, 'B':7}
-    coreparam = {'CSE':1, 'SEPS': 2, 'UNI': 3, 'CAPS':4}
+    coreparam = {'CSE':1, 'SEPS': 2, 'UNI': 3, 'CAPS':4, 'TRAIL':5}
     retakes = []
     corere =[]
     sepsre = []
