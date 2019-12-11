@@ -16,11 +16,7 @@ class Student(models.Model):
     corecgpa = models.FloatField(default=0.0)
     unicgpa = models.FloatField(default=0.0)
     semunmber = models.IntegerField(default=0)
-    '''credits = models.IntegerField(default=0)
-    software = models.IntegerField(default=0)
-    hardware = models.IntegerField(default=0)
-    math = models.IntegerField(default=0)
-    literature = models.IntegerField(default=0)'''
+    
 
     def updatecgpa(self):
         total_credit = 0
@@ -123,5 +119,21 @@ class Courses(models.Model):
 
     def __str__(self):
         return self.coursename
+
+
+class ComplainBox(models.Model):
+    Complain_number = models.AutoField(unique=True, primary_key= True)
+    Complaining_person = models.CharField(max_length=30)
+    Complainer_email = models.CharField(max_length= 40)
+    message = models.CharField(max_length= 300)
+
+class LostandFound(models.Model):
+    lost_id = models.AutoField(unique=True, primary_key= True)
+    finders_id = models.IntegerField(null= False)
+    itemtype = models.CharField(max_length=30)
+    loser_id = models.IntegerField(null=True, default=None)
+    finder_contact_email = models.CharField(max_length=40)
+    lost_item = models.CharField(max_length=400)
+    status = models.BooleanField(default=False)
     
 

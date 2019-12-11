@@ -12,3 +12,11 @@ admin.site.register(Grades)
 #Courses registration
 
 admin.site.register(Courses)
+
+#Complain box Table registration
+
+admin.site.register(ComplainBox)
+
+# lost and found Table registration
+
+admin.site.register(LostandFound)

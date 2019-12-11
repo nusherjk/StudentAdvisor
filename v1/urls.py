@@ -33,5 +33,11 @@ urlpatterns = [
     path('cp/', sa.showgradpath, name= 'Course Path'),
     path('logout/', sa.logout, name = 'logout'),
     path('retakes/', sa.retakelist, name= 'retake list'),
-    path('about/', sa.con, name='about'),
+
+    ###
+    path('complain/', sa.complain, name='complain box'),
+    path('complainaction/', sa.complainActionListener, name='complain box Action Listener'),
+    path('lostandfound/', sa.lostandfound, name = 'lost and found'),
+    path('lostandfoundaction/', sa.lostandfoundaction, name = 'lost and found'),
+
 ]

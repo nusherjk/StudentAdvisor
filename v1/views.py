@@ -1,20 +1,3 @@
-
-'''
-TODO's:
-Needs to match confirm password and password values before registering
-Needs to create Course Advisor Object Oriented (Done)
-Needs an Expert System for Students to determine how much courses they should take(Done)
-Needs to have an Expert System for Determining which courses should be retaken(Done)
-Probation checker
-Adding elective and capstone courses in database 
-adding them into prereq Knowledge Base (Done)
-Add a friggin Front end for this project (ALmost Done)
-the AI needs more classifiers (working on it..)
-ADD retakes/ in navbar
-ADD newnav in other pages
-Update 
-'''
-
 from django.shortcuts import render
 from .forms import *
 from .models import *
@@ -42,8 +25,20 @@ class Studentasist:
         form = LoginForm()
         return render(request, "login2.html", {"form": form})
 
-    def con(request):
-        return render(request, 'about.html')
+    def complain(request):
+        form = ComplaintForm()
+        return render(request, 'complain.html', {'form': form})
+
+    def complainActionListener(request):
+    	form = ComplaintForm(request.POST)
+    	if form.is_valid:
+    		fullname = form.cleaned_data['fullname']
+    		email = form.cleaned_data['email']
+    		comment = form.cleaned_data['comment']
+
+    		complainObject = ComplainBox(Complaining_person=fullname, Complainer_email= email, message=comment)
+    		complainObject.save()
+    	return HttpResponseRedirect('/complain')
 
     def loginaction(request):
         form = LoginForm(request.POST)
@@ -320,6 +315,43 @@ class Studentasist:
 
             # needs to do grade analyse here and checking current situations
             return render(request,'retakes.html' ,{'retakables':s})
+#show all te lost and found history
+    def lostandfound(request):
+    	if request.session.has_key("uni_id"):
+    	    form = LostForm()
+    	    return render(request, 'lostnfound.html', {'form':form})
+
+
+    	else:
+    		return HttpResponse('<h1> you have to login to report lost and found</h1>')
+
+    	
+
+    def lostandfoundaction(request):
+    	if request.session.has_key("uni_id"):
+    		form = LostForm(request.POST)
+    		if form.is_valid():
+    			convert_items = {1:'ID_Card', 2: 'Pen-Drive', 3:'Others'}
+    			itemtype = form.cleaned_data['itemtype']
+    			description = form.cleaned_data['description']
+    			converted_itemtype = convert_items[itemtype]
+    			university_id =  request.session['uni_id']
+    			studentObject = Student.objects.get(uni_id= university_id)
+    			email = studentObject.email
+    			try:
+    				loser_name = form.cleaned_data['loser_name']
+    			except Exception as e:
+    				loser_name = None
+    			try:
+    				loser_Id = form.cleaned_data['loser_name']
+    			except Exception as e:
+    				loser_Id = None
+
+    			lost_object = LostandFound(finders_id=university_id, itemtype=converted_itemtype, loser_id=loser_id, finder_contact_email=email,lost_item='description', status=False)
+    			lost_object.save()
+    			return HttpResponseRedirect('/lostandfound')
+    			
+
 
 
 
@@ -346,3 +378,4 @@ class Studentasist:
             stdobj.save()
             return HttpResponse('<h1>cgpa updated</h1>')
 
+    
