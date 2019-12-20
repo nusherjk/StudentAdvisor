@@ -14,6 +14,32 @@
 
         
         </div>
+        <h1>Lost Items</h1>
+        <table class="table">
+                <thead>
+                  <tr>
+                    
+                    <th> Finders ID</th>
+                    <th>Finders Email</th>
+                    <th>Losers ID</th>
+                    <th>Lost Item</th>
+                      
+                 
+
+                  </tr>
+                </thead>
+                <tbody>
+                      {% for lostinfos in lostinfo %}
+                          <tr>
+                          <td>{{ lostinfos.finders_id }}</td>
+                          <td>{{ lostinfos.finder_contact_email }}</td>
+                              <td>{{lostinfos.loser_id}}</td>
+                          <td>{{ lostinfos.lost_item }}</td>
+                          </tr>
+                      {% endfor %}
+
+                </tbody>
+              </table>
     </div>
     </div>
 

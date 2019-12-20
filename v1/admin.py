@@ -20,3 +20,6 @@ admin.site.register(ComplainBox)
 # lost and found Table registration
 
 admin.site.register(LostandFound)
+
+
+admin.site.register(EvaluationScripts)

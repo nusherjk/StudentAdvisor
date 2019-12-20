@@ -31,7 +31,7 @@ class Studentasist:
 
     def complainActionListener(request):
     	form = ComplaintForm(request.POST)
-    	if form.is_valid:
+    	if form.is_valid():
     		fullname = form.cleaned_data['fullname']
     		email = form.cleaned_data['email']
     		comment = form.cleaned_data['comment']
@@ -318,8 +318,9 @@ class Studentasist:
 #show all te lost and found history
     def lostandfound(request):
     	if request.session.has_key("uni_id"):
-    	    form = LostForm()
-    	    return render(request, 'lostnfound.html', {'form':form})
+            form = LostForm()
+            lostlist = LostandFound.objects.filter(status = False)
+            return render(request, 'lostnfound.html', {'form':form, 'lostinfo': lostlist})
 
 
     	else:
@@ -349,6 +350,7 @@ class Studentasist:
 
     			lost_object = LostandFound(finders_id=university_id, itemtype=converted_itemtype, loser_id=loser_id, finder_contact_email=email,lost_item='description', status=False)
     			lost_object.save()
+                
     			return HttpResponseRedirect('/lostandfound')
     			
 
@@ -377,5 +379,75 @@ class Studentasist:
             stdobj.cgpa = cgpa
             stdobj.save()
             return HttpResponse('<h1>cgpa updated</h1>')
+
+
+    ### faculty evaluation
+
+    def eval(request):
+        if request.session.has_key('uni_id'):
+            uid = request.session['uni_id']
+            studentObject  = Student.objects.get(uni_id= uid)
+            form = Evaluation()
+
+            return render(request, 'eval.html', {'form': form})
+        else:
+            return HttpResponse('<h1>login required</h1>')
+
+    def evalact(request):
+            if request.session.has_key('uni_id'):
+                uid = request.session['uni_id']
+                studentObject  = Student.objects.get(uni_id= uid)
+                form = Evaluation(request.POST)
+                print(form.errors)
+                
+
+                if form.is_valid():
+                    convert_items = {'1': 'Agree','2': 'Neutral', '3':'Disagree'}
+                    faculty_name = form.cleaned_data['facultyname']
+                    option1 = form.cleaned_data['option1']
+                    option1 = convert_items[option1]
+
+                    option2 = form.cleaned_data['option2']
+                    option2 = convert_items[option2]
+
+                    option3 = form.cleaned_data['option3']
+                    option3 = convert_items[option3]
+
+                    option4 = form.cleaned_data['option4']
+                    option4 = convert_items[option4]
+
+                    option5 = form.cleaned_data['option5']
+                    option5 = convert_items[option5]
+
+                    option6 = form.cleaned_data['option6']
+                    option6 = convert_items[option6]
+
+                    comment = form.cleaned_data['comment']
+
+                    print(faculty_name+' ' + option1+' ' + comment +' ' +str(uid))
+                        #option6 = convert_items[option6]
+                    newEvalObject = EvaluationScripts(faculty_name=faculty_name, option1_input=option1, option2_input=option2, option3_input=option3, option4_input=option4, option5_input=option5, option6_input=option6, commentinput=comment, submitter_id=uid)
+                    newEvalObject.save()
+                return HttpResponseRedirect('/facultyevaluation')
+            else:
+                return HttpResponse('<h1> Not working</h1>')
+'''
+
+class EvaluationScripts(models.Model):
+    faculty_name = models.CharField(max_length= 200)
+    option1_input = models.CharField(max_length= 10)
+    option2_input = models.CharField(max_length= 10)
+    option3_input = models.CharField(max_length= 10)
+    option4_input = models.CharField(max_length= 10)
+    option5_input = models.CharField(max_length= 10)
+    option6_input = models.CharField(max_length= 10)
+    comment = models.CharField(max_length= 1000)
+    submitter_id = models.IntegerField()
+'''
+
+
+
+
+
 
     

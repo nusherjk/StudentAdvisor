@@ -40,4 +40,9 @@ urlpatterns = [
     path('lostandfound/', sa.lostandfound, name = 'lost and found'),
     path('lostandfoundaction/', sa.lostandfoundaction, name = 'lost and found'),
 
+    ###
+
+    path('facultyevaluation/', sa.eval, name = 'facultyevaluation'),
+    path('evalact/', sa.evalact, name = 'facultyevaluationactionlistener'),
+
 ]

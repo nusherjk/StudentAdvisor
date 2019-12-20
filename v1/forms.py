@@ -46,9 +46,24 @@ class GradeForm(forms.Form):
 class LostForm(forms.Form):
     item = [('1', 'ID_Card'), ('2', 'Pen-Drive'), ('3','others')]
     itemtype = forms.ChoiceField(choices=item, label='Item' ,widget=forms.Select(attrs={'class':"form-control",'placeholder':'Item'}))
-    loser_name = forms.CharField( label='Name(if available)' ,widget=forms.Select(attrs={'class':"form-control",'placeholder':'Name'}))
-    loser_id = forms.CharField( label='Id(if available)' ,widget=forms.Select(attrs={'class':"form-control",'placeholder':'ID'}))
+    loser_name = forms.CharField( label='Name(if available)' ,widget=forms.TextInput(attrs={'class':"form-control",'placeholder':'Name'}))
+    loser_id = forms.CharField( label='Id(if available)' ,widget=forms.TextInput(attrs={'class':"form-control",'placeholder':'ID'}))
     description = forms.CharField(max_length=1000, widget=forms.TextInput(attrs={'class':"form-control"}), label='Comment')
+
+
+
+class Evaluation(forms.Form):
+    options = (('1', 'Agree'),('2', 'Neutral'), ('3','Disagree'))
+
+    facultyname = forms.CharField(label = 'faculty name', widget=forms.TextInput(attrs={'class':"form-control",'placeholder':'facultyname'}))
+    option1 = forms.ChoiceField(choices= options,label = 'The Instructor was adequate prepared for class',  widget= forms.RadioSelect(attrs={ 'placeholder':'option1'}))
+    option2 = forms.ChoiceField(choices= options,label = 'The Instructor began and ended class on time, and used class time effectively',  widget= forms.RadioSelect(attrs={'placeholder':'option2'}))
+    option3 = forms.ChoiceField(choices= options,label = 'The instructor\'s teaching method was effective, adn sessions were clear and understandable.',  widget= forms.RadioSelect(attrs={'placeholder':'option3'}))
+    option4 = forms.ChoiceField(choices= options,label = 'The instructor was available during office hours and was helpful.',  widget= forms.RadioSelect(attrs={'placeholder':'option4'}))
+    option5 = forms.ChoiceField(choices= options,label = 'The instructor had good command over the subject matter of the course.',  widget= forms.RadioSelect(attrs={'placeholder':'option5'}))
+    option6 = forms.ChoiceField(choices= options,label = 'The instructor was fair in grading exams, quizzes, assignments and provided timely feedback.',  widget= forms.RadioSelect(attrs={'placeholder':'option6'}))
+
+    comment = forms.CharField(label= 'Comment', widget= forms.TextInput(attrs={'class': "form-control", 'placeholder': 'Extra commnets'}))
 
 
 
